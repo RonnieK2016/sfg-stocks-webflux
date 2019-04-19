@@ -10,13 +10,13 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
-
 @Configuration
 public class QuoteRouter {
 
     @Bean
     RouterFunction<ServerResponse> quotesRouter(QuoteHandler quoteHandler) {
         return RouterFunctions.route(GET("/quotes")
-                .and(accept(MediaType.APPLICATION_JSON)), quoteHandler::getQuotes);
+                .and(accept(MediaType.APPLICATION_JSON)), quoteHandler::getQuotes)
+                .andRoute(GET("/quotes").and(accept(MediaType.APPLICATION_STREAM_JSON)), quoteHandler::streamQuotes);
     }
 }
